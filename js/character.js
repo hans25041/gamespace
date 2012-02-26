@@ -18,28 +18,19 @@ Character = function() {
     };
 
     ThisCharacter.restore = function( character, canvas, context ) {
+       for ( key in character ) {
+            ThisCharacter[key]=character[key];
+        }
         ThisCharacter.canvas    = canvas;
         ThisCharacter.context   = context;
-        ThisCharacter.id        = character.id;
-        ThisCharacter.x         = character.x;
-        ThisCharacter.y         = character.y;
-        ThisCharacter.z         = character.z;
-        ThisCharacter.miny      = character.miny;
-        ThisCharacter.maxy      = character.maxy;
-        ThisCharacter.direction = character.direction;
-        ThisCharacter.sprite    = character.sprite;
     };
 
     ThisCharacter.exporter = function( character ) {
         var echar       = {};
-        echar.id        = character.id;
-        echar.x         = character.x;
-        echar.y         = character.y;
-        echar.z         = character.z;
-        echar.miny      = character.miny;
-        echar.maxy      = character.maxy;
-        echar.direction = ThisCharacter.direction;
-        echar.sprite    = character.sprite;
+        for ( key in character ) {
+            if( typeof character[key] !== 'function' && typeof character[key] !== 'object' )
+                echar[key] = ThisCharacter[key];
+        }
         return echar;
     }
 
