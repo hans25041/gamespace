@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <META HTTP-EQUIV=Content-Type CONTENT=text/html; charset=UTF8>
+        <title>HTML DRAW</title>
+
+        <link rel="stylesheet" href="style.css" />
+        <script type="text/javascript" src="js/canvas.js"></script>
+        <script type="text/javascript" src="js/map.js"></script>
+        <script type="text/javascript" src="js/character.js"></script>
+        <script type="text/javascript" src="js/cell.js"></script>
+        <script type="text/javascript" src="js/grid.js"></script>
+        <script type="text/javascript" src="js/lib.js"></script>
+        <script type="text/javascript">
+
+window.onload   = function() {
+
+    window.canvas  = new Canvas();
+
+    var map         = new Map();
+    var grid        = new Grid();
+    var components  = {
+        map:    map,
+        grid:   grid
+    };
+    window.canvas.init( components );
+    window.canvas.draw();
+    fillTypeSetting( 'color' );
+}
+
+        </script>
+
+    </head>
+    <body>
+    <div id="canvas-wrapper">
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <div id="settings-wrapper">
+    <form name="settings">
+        <fieldset>
+            <legend>Cell Settings</legend>
+            <fieldset>
+                <legend>Fill Type</legend>
+                <input type="radio" name="filltype" value="color" id="fill-type-color" checked onclick="javascript:fillTypeSetting( 'color' );" /><label for="fill-type-color">Color</label>
+                <input type="radio" name="filltype" value="image" id="fill-type-image" onclick="javascript:fillTypeSetting( 'image' );" /><label for="fill-type-image">Image</label>
+                <input type="radio" name="filltype" value="character" id="fill-type-character" onclick="javascript:fillTypeSetting( 'character' );" /><label for="fill-type-character">Character</label>
+            </fieldset>
+            <fieldset>
+                <legend>Layer</legend>
+                <select id="layer" name="layer">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+                <label for="layer">Layer</label>
+            </fieldset>
+            <fieldset id="color-selection">
+                <legend>Fill Color</legend>
+                <input type="radio" name="cellfill" value="#ff0000" checked="checked" id="cell-red" /><label for="cell-red">Red</label><br />
+                <input type="radio" name="cellfill" value="#00ff00" id="cell-green" /><label for="cell-green">Green</label><br />
+                <input type="radio" name="cellfill" value="#00b9d2" id="cell-blue" /><label for="cell-blue">Blue</label><br />
+                <input type="radio" name="cellfill" value="#ffffff" id="cell-white" /><label for="cell-white">White</label><br />
+            </fieldset>
+            <fieldset id="image-selection">
+                <legend>Fill Image</legend>
+                <input type="radio" name="cellfill" value="bk1" id="cell-bk1" />
+                    <label for="cell-bk1"><img src="assets/backgrounds/bk1.png" alt="First user defined background" id="bk1" /></label>
+                <input type="radio" name="cellfill" value="bk2" id="cell-bk2" />
+                    <label for="cell-bk2"><img src="assets/backgrounds/bk2.png" alt="First user defined background" id="bk2" /></label>
+                <input type="radio" name="cellfill" value="bk3" id="cell-bk3" />
+                    <label for="cell-bk3"><img src="assets/backgrounds/bk3.png" alt="First user defined background" id="bk3" /></label>
+            </fieldset>
+            <fieldset id="character-selection">
+                <legend>Initial Character Position</legend>
+                <input type="radio" name="cellfill" value="h1" id="cell-h1" onclick="javascript:updateParameters('character', 0);" />
+                    <label for="cell-h1"><img src="assets/characters/h1.png" alt="First user defined background" id="h1" /></label>
+                <input type="radio" name="cellfill" value="e1" id="cell-e1" onclick="javascript:updateParameters('character', 1);"  />
+                    <label for="cell-e1"><img src="assets/characters/e1.png" alt="First user defined background" id="e1" /></label>
+                <input type="radio" name="cellfill" value="e2" id="cell-e2" onclick="javascript:updateParameters('character', 2);" />
+                    <label for="cell-e2"><img src="assets/characters/e2.png" alt="First user defined background" id="e2" /></label>
+            </fieldset>
+
+            <fieldset id="character-parameters">
+                <legend>Character Parameters</legend>
+                <div id="character-id"></div>
+                <div id="character-position"></div>
+                <fieldset id="character-motion">
+                    <legend>Character Motion</legend>
+                    <div id="character-motion-mobility"></div>
+                    <div id="character-motion-speed"></div>
+                    <div id="character-motion-direction"></div>
+                </fieldset>
+            </fieldset>
+
+            <fieldset>
+                <legend>Grid</legend>
+                <input type="radio" name="grid" value="on" id="grid-on" checked disabled="true" onclick="javascript:gridSetting('on')" /><label for="grid-on">Show Grid</label>
+                <input type="radio" name="grid" value="off" id="grid-off" onclick="javascript:gridSetting('off')" /><label for="grid-off">Hide Grid</label>
+            </fieldset>
+        </fieldset>
+        <input type="button" value="Export" onclick="javascript:exportMap();" />
+        <input type="button" value="Import" onclick="javascript:showImportForm(window.canvas);" />
+        <input type="button" value="Demo" onclick="javascript:demo();" />
+    </form>
+    </div>
+    <div id="level-wrapper"></div>
+    <div class="clear"></div>
+    </body>
+</html>

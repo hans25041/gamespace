@@ -1,0 +1,8 @@
+Each level the enemies get an extra territory.
+Level 1: enemies don't move.
+Level 2: enemies can move back and forth from their tile to an adjacent tile.
+Level 3: enemies can move to any of three adjacent tiles.
+...
+Level N: enemies can move to any of N adjacent tiles.
+
+Specific range, set by Player 2.

@@ -1,0 +1,14 @@
+#canvas {
+    border 1px solid black;
+}
+
+#canvas-wrapper, #settings-wrapper {
+    float: left;
+}
+#level-wrapper {
+    float: left;
+    width: 100px;
+}
+.clear {
+    clear: both;
+}
