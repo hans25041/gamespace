@@ -22,6 +22,8 @@ Canvas = function() {
             ThisCanvas.components.push(component);
             ThisCanvas[component].init( ThisCanvas.canvas, ThisCanvas.context );
         }
+        ThisCanvas.canvas.addEventListener("mousedown", ThisCanvas.onMouseDown, false);
+        ThisCanvas.canvas.addEventListener("mouseup", ThisCanvas.onMouseUp, false);
         ThisCanvas.canvas.addEventListener("click", ThisCanvas.onClick, false);
 
     }
@@ -54,7 +56,7 @@ Canvas = function() {
     /*
      * Canvas.onClick
 
-     * Hanles the onMouseClick event.
+     * Hanles the click event.
      */
     ThisCanvas.onClick  = function(e) {
         var c = ThisCanvas.getCursorPosition(e);
@@ -67,6 +69,38 @@ Canvas = function() {
         }
 
         ThisCanvas.draw();
+        return true;
+    }
+
+    /*
+     * Canvas.onMouseDown
+
+     * Hanles the mousedown event.
+     */
+    ThisCanvas.onMouseDown = function(e) {
+        var cursorPosition  = ThisCanvas.getCursorPosition;
+        var canvasDraw      = ThisCanvas.draw;
+        for ( component in ThisCanvas.components ) {
+            key = ThisCanvas.components[component];
+            if ( typeof ThisCanvas[key].onMouseDown === 'function' ) {
+                ThisCanvas[key].onMouseDown(cursorPosition, canvasDraw);
+            }
+        }
+        return true;
+    }
+
+    /*
+     * Canvas.onMouseUp
+
+     * Hanles the mouseup event.
+     */
+    ThisCanvas.onMouseUp = function(e) {
+        for ( component in ThisCanvas.components ) {
+            key = ThisCanvas.components[component];
+            if ( typeof ThisCanvas[key].onMouseUp === 'function' ) {
+                ThisCanvas[key].onMouseUp();
+            }
+        }
         return true;
     }
 

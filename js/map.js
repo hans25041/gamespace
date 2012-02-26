@@ -29,17 +29,47 @@ Map = function() {
                     ThisMap.characters[id].place(c);
                 }
             default:
-                var cell    = new Cell();
-                var x       = c.x - ( c.x % 50 );
-                var y       = (c.y/50);
-                var z       = c.z;
-                a = cell.init( c, ThisMap.canvas, ThisMap.context );
-                if ( ! ThisMap.map[a.z] )       ThisMap.map[a.z]        = new Array();
-                if ( ! ThisMap.map[a.z][a.x] )  ThisMap.map[a.z][a.x]   = new Array();
-                ThisMap.map[a.z][a.x][a.y]  = cell;
+                return false;
+        }
+    };
+
+    ThisMap.onMouseDown = function(cursorPosition, canvasDraw) {
+        ThisMap.mousedown = true;
+        var type;
+        for ( var i = 0; i < document.settings.filltype.length; i++ ) {
+            if ( document.settings.filltype[i].checked ) {
+                type = document.settings.filltype[i].value;
+            }
+        }
+
+        switch ( type ) {
+            case 'character':
+                return false;
+            default:
+                canvas.canvas.onmousemove = function(e) {
+                    if( ThisMap.mousedown === false ) {
+                        canvas.canvas.onmousemove = null;
+                        return true;
+                    }
+                    c = cursorPosition(e);
+                    var cell    = new Cell();
+                    var x       = c.x - ( c.x % 50 );
+                    var y       = (c.y/50);
+                    var z       = c.z;
+                    a = cell.init( c, ThisMap.canvas, ThisMap.context );
+                    if ( ! ThisMap.map[a.z] )       ThisMap.map[a.z]        = new Array();
+                    if ( ! ThisMap.map[a.z][a.x] )  ThisMap.map[a.z][a.x]   = new Array();
+                    ThisMap.map[a.z][a.x][a.y]  = cell;
+                    canvasDraw();
+                };
+
                 break;
         }
     };
+
+    ThisMap.onMouseUp = function() {
+    ThisMap.mousedown = false;
+}
 
     ThisMap.draw = function () {
         if ( ThisMap.map.length > 0 ) {
